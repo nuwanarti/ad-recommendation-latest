@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Capture yourself</title>
+  <meta charset='utf-8'>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="main.css" type="text/css" media="all">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <script src="capture.js">
+  </script>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <h1>
+      Put you own heading
+    </h1>
+    <p>
+      This is where you would take photos while the user watching the video
+      after gathering data, just end and submit then all the photos will be saved in the backend
+    </p>
+    <div class="row">
+   
+    
+      <div class="col-6">
+        <div class="row">
+          <div class="camera">
+            <video id="video">Video stream not available.</video> 
+          </div>
+        </div>
+        <div class="row" >
+          <input id="userId" value="" placeholder="Please enter user id" />
+          <button id="startbutton">Start</button>
+          <button id="endCapturing">end and submit</button>
+          
+        </div>
+        
+        
+      </div>
+      <div class="col-6">
+
+        <canvas id="canvas">
+        </canvas>
+        <div class="output">
+          <img id="photo" alt="The screen capture will appear in this box.">
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</body>
+
+</html>

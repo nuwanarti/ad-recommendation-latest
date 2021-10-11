@@ -1,0 +1,25 @@
+{
+  "name": "authenticationIntro",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": "https://github.com/LintangWisesa",
+  "author": "LintangWisesa <lintangwisesa@ymail.com>",
+  "license": "none",
+  "scripts": {
+    "start": "node app",
+    "watch": "nodemon app && mongod"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "connect-mongo": "^4.4.1",
+    "connect-mongodb-session": "^2.4.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "express-validator": "^6.11.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.9"
+  }
+}
