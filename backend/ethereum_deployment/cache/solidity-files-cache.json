@@ -1,0 +1,39 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/home/hicup/Documents/ad-recommendation/backend/ethereum_deployment/contracts/Demography.sol": {
+      "lastModificationDate": 1634122416702,
+      "contentHash": "ce67e4bb3a6b455b16b2e6f3a4f71b7f",
+      "sourceName": "contracts/Demography.sol",
+      "solcConfig": {
+        "version": "0.7.3",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.7.0"
+      ],
+      "artifacts": [
+        "Demography"
+      ]
+    }
+  }
+}
