@@ -29,7 +29,11 @@ model = tf.keras.models.load_model('./models/ensemble.h5')
 
 # favAd = pd.read_csv('favAd.csv')
 favAd = pd.read_csv('ensemble.csv')
-x=favAd[['age', 'gender']].values
+x=favAd[['joy', 'sadness', 'disgust', 'contempt',
+       'anger', 'fear', 'surprise', 'valence', 'engagement', 'smile', 'innerBrowRaise', 'browRaise', 'browFurrow',
+       'noseWrinkle', 'upperLipRaise', 'lipCornerDepressor', 'chinRaise',
+       'lipPucker', 'lipPress', 'lipSuck', 'mouthOpen', 'smirk', 'eyeClosure','lidTighten', 'jawDrop', 'dimpler', 'eyeWiden',
+       'cheekRaise', 'lipStretch', 'age', 'gender']]
 pred = model.predict(x)
 arr = pred.argmax(1)
 print(int(sum(arr/len(arr))))
