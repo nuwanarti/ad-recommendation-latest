@@ -13,7 +13,7 @@
 
 </head>
 
-<body style="background: black;">
+<body>
 
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -94,6 +94,7 @@
 <script>
 
     var adId = ''
+    var adsIdArray = [] //cout
     var adPlayer;
     var interval = setInterval(() => {
         getAdUrl()
@@ -144,6 +145,7 @@
                 console.log(data);
                 // alert(JSON.stringify(data))
                 adId = data.data
+                adsIdArray.push(adId)
                 // $('#score').html(data.mean)
                 player.pauseVideo()
                 playAd()
