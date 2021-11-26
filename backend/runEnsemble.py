@@ -4,6 +4,7 @@ from keras.wrappers.scikit_learn import KerasClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score
+import random
 import numpy as np
 
 from pandas import read_csv
@@ -37,3 +38,4 @@ x=favAd[['joy', 'sadness', 'disgust', 'contempt',
 pred = model.predict(x)
 arr = pred.argmax(1)
 print(int(sum(arr/len(arr))))
+# print(random.randint(0, 3))

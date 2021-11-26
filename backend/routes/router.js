@@ -3,15 +3,71 @@ var router = express.Router();
 var User = require('../models/user');
 var Emotions = require('../models/emotions')
 var Demography = require('../models/demography')
-var Gesture = require('../models/gesture')
+var Ad = require('../models/ad')
 
 var fs = require('fs');
 var spawn = require("child_process").spawn;
 var { Parser } = require('json2csv');
+
+var ethers = require('ethers');
+
+const MNEMONIC = 'coffee vibrant analyst leg orbit chunk brass prosper address bright grape velvet camera knife crazy excess symptom column fine web train market nature orphan' // put your recovery phrase here // process.env.MNEMONIC
+const CONTRACT_ADDRESS = '0xE755048989A48D4a489C2caD8f9cb5E421eF604d' // put your wallet id here '0x0Ee0B9a5c440b6b70c8cb95E2982cE4BbC010aE2'
+const ABI = [
+    'function setValue(string value)',
+    'function value() public view returns (string)'
+]
+
+router.get('/get', async (req, res) => {
+    const provider = ethers.getDefaultProvider('rinkeby')
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider)
+    try {
+        const value = await contract.value()
+        res.send(value)
+    } catch (e) {
+        res.send(e)
+    }
+})
+
+router.post('/set', async (req, res) => {
+    const provider = ethers.getDefaultProvider('rinkeby')
+    const wallet = ethers.Wallet.fromMnemonic(MNEMONIC).connect(provider)
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, wallet)
+    try {
+        await contract.setValue(req.body.data)
+        res.send('OK')
+    } catch (e) {
+        res.send(e)
+    }
+})
+
+
 // GET route for homepage
 router.get('/', function (req, res, next) {
   return res.sendFile(path.join(__dirname + '/views/index.html'));
 });
+
+
+router.get('/users', async (req, res, next) => {
+  // console.log('came here')
+  // return res.json({success: true})
+  const users = await User.find();
+  res.json({success: true, users, count: users.length})
+
+})
+
+
+router.get('/ads', async (req, res, next) => {
+  const ads = await Ad.find();
+  res.json({success: true, ads, count: ads.length})
+})
+
+router.post('/ads', async(req, res, next) => {
+  const ad = new Ad(req.body.ad)
+  const saved = await ad.save()
+  res.json({success: true, data: saved})
+})
+
 
 // post route for updating emotions data
 router.post('/emotions', async function (req, res, next) {
@@ -35,33 +91,6 @@ router.post('/emotions', async function (req, res, next) {
   //     return res.redirect('/profile');
   //   }
   // });
-})
-
-let values = {
-  matId: '',
-  gesturePerformed: ''
-}
-
-router.post('/setDetails', (req, res) => {
-  values = {
-    matId: req.body.matId,
-    gesturePerformed: req.body.gesturePerformed
-  }
-  res.set('Access-Control-Allow-Origin', '*');
-  return res.json({ success: true, value: values })
-})
-
-router.post('/gestures', async (req, res, next) => {
-  // const gesture = new Gesture(req.body.gesture)
-  let obj = {
-    ...req.body.gesture,
-    ...values
-  }
-  console.log(obj)
-  // return res.json({data: obj})
-  const results = await Gesture.create(obj)
-  // res.set('Access-Control-Allow-Origin', '*');
-  res.json({ success: true, data: results })
 })
 
 router.post('/getAdUrl', (req, res, next) => {
@@ -135,11 +164,13 @@ function run(req, res, next){
   var dataString = '';
 
   py.stdout.on('data', function (data) {
+    console.log('data ' + data)
     dataString += data.toString();
   });
   py.stdout.on('end', function () {
     
     let val = parseInt(dataString.trim())
+    console.log('val ' + val)
     let adNo = ''
     if(val == 0){
       adNo = 'CVPKs9xdCMc'
@@ -159,40 +190,6 @@ function run(req, res, next){
   py.stdin.end();
 
 }
-
-router.get('/gestures', async (req, res, next) => {
-  let results = []
-  if (req.query.matId) {
-
-    results = await Gesture.find({ matId: req.query.matId })
-
-  } else {
-    results = await Gesture.find()
-  }
-  // res.set('Access-Control-Allow-Origin', '*');
-  let count = {
-    total: results.length,
-    tap: 0,
-    left: 0,
-    right: 0
-  }
-
-  results.forEach(r => {
-    if (r) {
-      if (r.gesturePerformed == 'tap') {
-        count.tap = count.tap + 1
-      }
-      if (r.gesturePerformed == 'left') {
-        count.left = count.left + 1
-      }
-      if (r.gesturePerformed == 'right') {
-        count.right = count.right + 1
-      }
-    }
-  })
-  return res.json({ success: true, count, data: results })
-
-})
 
 router.post('/demography', async function (req, res, next) {
 
